@@ -4,10 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var db = require('./model/db.js');
 var routes = require('./routes/index');
-var users = require('./routes/users');
-
+var chofer = require('./routes/chofer');
 var app = express();
 
 // view engine setup
@@ -23,8 +22,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/chofer', chofer);
 
+db.init();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -33,6 +33,15 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+var express = require('express');
+var router = express.Router();
+
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+module.exports = router;
 
 // development error handler
 // will print stacktrace
