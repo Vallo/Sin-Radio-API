@@ -52,13 +52,13 @@ router.delete('/:id',function(req,res){ //eliminar chofer, validar que la solici
 
 
 router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre por param
-	var telefono = req.body.Tel;
+	var telefono = req.body.tel;
 	var nombre = req.body.Nombre;
 	chofer.add(nombre,telefono).then(function(chof){
-		res.send(JSON.stringify(chof));
+		res.sendstatus(200); //res.send(JSON.stringify(chof));
 	}).catch(function(err){
 		res.status(400);
-		res.send('Bad Request');
+		res.send('Chofer ya existente');
 	});
 });
 
