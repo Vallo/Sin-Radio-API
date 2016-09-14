@@ -6,8 +6,13 @@ var sms = require('../helper/sms.js')
 var db = require('../model/db.js');
 
 router.get('/', function(req,res){
-	var id = 1//req.get('android_id');
-	//chofer.findbyId(id);
+	chofer.findAll().then(function(result){
+		res.status(200);
+		res.send(JSON.stringify(result));
+	}).catch(function(err){
+		res.status(500);
+		res.send('Error interno');
+	})
 });
 
 
@@ -41,7 +46,8 @@ router.get('/sendSMS/:id', function(req,res){ //envío clave al teléfono id por
 });
 
 router.delete('/:id',function(req,res){ //eliminar chofer, validar que la solicitud venga de la central 
-
+	chofer.delete(req.params.id);
+	res.sendstatus(200);
 });
 
 

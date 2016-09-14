@@ -9,6 +9,11 @@ exports.test = function(){
 	db.query('select 1 as test');
 }
 
+exports.findAll = function(){
+	return db.query('select * from chofer').then(function(result){
+		return result;
+	})
+}
 exports.findbyId = function(id){
 	return db.query('select * from chofer where android_id = ?', id).then(function(result){
 		return result[0];
@@ -19,6 +24,10 @@ exports.findbyTel = function(tel){
 	return db.query("select * from chofer where tel = ?", tel).then(function(result){
 		return result[0];
 	});
+}
+
+exports.delete = function(id){
+	db.query("delete from chofer where android_id = ?", id);
 }
 
 exports.add = function(nombre, tel){	

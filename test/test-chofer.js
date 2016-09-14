@@ -58,14 +58,13 @@ it('envio clave recibida por SMS y le asigno android_id 1234, después lo solici
 	.put('/chofer/4321').send({ tel: '11223344', claveSMS: '4321'})
 	.end(function (err, res) {
 		expect(res).to.have.status(200);
-		chai.request(app)
-		.get('/chofer/4321')
-		.end(function (err, res) {
-			expect(res).to.have.status(200);
-		}); 
-	}).then(function(){		
-		done(); 
-	});
+	})
+	chai.request(app)
+	.get('/chofer/4321')
+	.end(function (err, res) {
+		expect(res).to.have.status(200);
+	}); 
+	done(); 
 });
 
 
