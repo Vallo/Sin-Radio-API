@@ -18,12 +18,10 @@ exports.init = function(){
 exports.query = function(consulta, param){
 	return Promise.using(getSqlConnection(), function(connection){
 		return connection.query(consulta, param).then(function(rows){
-			console.log(rows);
 			return rows;
 		}).catch(function(error){
 			console.log(error);
-		}).finally(function(){
-			console.log("FIN");
+			throw error;
 		});
 	});
 }

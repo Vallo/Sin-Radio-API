@@ -10,24 +10,40 @@ exports.test = function(){
 }
 
 exports.findbyId = function(id){
-	var result = db.query('select * from chofer where id = ?', id);
+	return db.query('select * from chofer where android_id = ?', id).then(function(result){
+		return result[0];
+	});
 }
 
 exports.findbyTel = function(tel){
-	
 	return db.query("select * from chofer where tel = ?", tel).then(function(result){
-		return result;
+		return result[0];
 	});
-
-
 }
 
-exports.add = function(nombre, tel){
-	var exists = this.findbyTel(tel).then(function(exists){
-		if (exists.affectedRows > 0) {console.log("ERROR");}
-	})	
+exports.add = function(nombre, tel){	
 	var random = Math.floor((Math.random() * 10000) + 1);
-	console.log(tel + " - " + random);
-	var result = db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]);
-	console.log(random);
+	return db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]).then(
+		function(result){
+			return result;
+		}).catch(function(error){
+			console.log('error insertando chofer (chofer ya existente?)');
+			return error;
+		});
+}
+
+exports.setClave = function(tel, android, clave){
+	return db.query("select * from chofer where tel = ? and claveSMS = ?", [tel, clave]).then(function(result){
+		console.log("asd" + result);
+		if (result.length > 0){
+			return db.query("update chofer set android_id = ? where tel = ? and claveSMS = ?", [android, tel, clave]).then(function(result){
+				return result[0];
+			}).catch(function(error){
+				return new Object({'Error':'algo explotó', 'Errno' : '2'});
+			});
+		}
+		else{
+			return new Object({'Error':'clave michetti'});
+		}
+	});
 }
