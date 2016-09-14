@@ -18,7 +18,10 @@ router.get('/:id', function(req,res){
 				res.status(410);
 				res.send('Chofer inexistente');
 			}
-			else res.send(resp);
+			else {
+				res.status(200);
+				res.send(chof);
+			}
 		});
 });
 
@@ -31,7 +34,7 @@ router.get('/sendSMS/:id', function(req,res){ //envío clave al teléfono id por
 			res.send('Chofer inexistente');
 		}
 		else{
-		//sms.sendSms(chof.tel, chof.claveSMS); // tengo el tel mando sms	
+			sms.sendSms(chof.tel, chof.claveSMS); // tengo el tel mando sms	
 			res.sendStatus(200); // todo ok
 		}
 	});
@@ -47,6 +50,9 @@ router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre po
 	var nombre = req.body.Nombre;
 	chofer.add(nombre,telefono).then(function(chof){
 		res.send(JSON.stringify(chof));
+	}).catch(function(err){
+		res.status(400);
+		res.send('Bad Request');
 	});
 });
 
@@ -54,7 +60,7 @@ router.put('/:id', function(req,res){ //se valida la clave SMS
 	var android = req.params.id;
 	var tel = req.body.tel;
 	var clave = req.body.claveSMS;
-	chofer.findbyTel(req.params.id).then(function(chof){
+	chofer.findbyTel(tel).then(function(chof){
 		if(!chof){ //hay que registrarlo antes desde la central
 			res.status(410);
 			res.send('Chofer inexistente');
@@ -70,7 +76,7 @@ router.put('/:id', function(req,res){ //se valida la clave SMS
 				}
 				else if(error.Exception == 'ClaveInvalidaException')
 					res.status(400);
-				res.send(error.message);
+					res.send(error.message);
 			});
 		}
 	});
