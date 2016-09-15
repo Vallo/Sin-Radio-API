@@ -2,9 +2,10 @@ var mysql = require('promise-mysql');
 
 pool = mysql.createPool({
   host     : 'localhost',
-	  user     : 'root',
+	  user     : 'test',
 	  password : '1234',
 	  database : 'test',
+	  port: '3307',
   connectionLimit: 10
 });
 

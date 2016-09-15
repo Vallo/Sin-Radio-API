@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var chofer = require('./routes/chofer');
 var app = express();
 
+console.log('SERVER ON')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

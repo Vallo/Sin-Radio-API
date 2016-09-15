@@ -11,6 +11,7 @@ exports.init = function(){
 			catch(function(error) {
       console.log(error);
     });
+	console.log('db incializada');
 })}
 
 

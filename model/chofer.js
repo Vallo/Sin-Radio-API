@@ -34,16 +34,23 @@ exports.add = function(nombre, tel){
 
 exports.setClave = function(tel, android, clave){
 	return db.query("select * from chofer where tel = ? and claveSMS = ?", [tel, clave]).then(function(result){
-		console.log("asd" + result);
 		if (result.length > 0){
 			return db.query("update chofer set android_id = ? where tel = ? and claveSMS = ?", [android, tel, clave]).then(function(result){
-				return result[0];
+				return result.affectedRows;
 			}).catch(function(error){
-				return new Object({'Error':'algo explotó', 'Errno' : '2'});
+				console.log(error);
+				throw new CustomException('MysqlException',error);
 			});
 		}
-		else{
-			return new Object({'Error':'clave michetti'});
+		else
+		{
+			throw new CustomException('ClaveInvalidaException','La clave ingresada es incorrecta');
 		}
 	});
+}
+
+
+function CustomException(name_, message_) {
+  this.Exception = name_;
+  this.message = message_;
 }
