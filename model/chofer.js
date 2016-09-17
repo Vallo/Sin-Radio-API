@@ -1,8 +1,4 @@
 var db = require('./db.js');
-var promise = require("bluebird");
-
-var Promise = require("bluebird");
-var getSqlConnection = require('./dbConnection');
 
 
 exports.test = function(){

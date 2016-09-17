@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var db = require('./model/db.js');
 var routes = require('./routes/index');
 var chofer = require('./routes/chofer');
+var posicion = require('./routes/posicion');
 var app = express();
 
 console.log('SERVER ON')
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/chofer', chofer);
+app.use('/posicion', posicion);
 
 db.init();
 // catch 404 and forward to error handler

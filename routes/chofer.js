@@ -1,9 +1,7 @@
-
 var express = require('express');
 var router = express.Router();	
 var chofer = require('../model/chofer.js');
 var sms = require('../helper/sms.js')
-var db = require('../model/db.js');
 
 router.get('/', function(req,res){
 	chofer.findAll().then(function(result){
@@ -23,7 +21,7 @@ router.get('/:id', function(req,res){
 				res.status(410);
 				res.send('Chofer inexistente');
 			}
-			else {
+			else { 
 				res.status(200);
 				res.send(chof);
 			}
@@ -53,7 +51,7 @@ router.delete('/:id',function(req,res){ //eliminar chofer, validar que la solici
 
 router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre por param
 	var telefono = req.body.tel;
-	var nombre = req.body.Nombre;
+	var nombre = req.body.nombre;
 	chofer.add(nombre,telefono).then(function(chof){
 		res.sendstatus(200); //res.send(JSON.stringify(chof));
 	}).catch(function(err){
@@ -89,31 +87,3 @@ router.put('/:id', function(req,res){ //se valida la clave SMS
 });
 
 module.exports = router;
-/*
-
-chofer 
-
-GET
-/ 
-	devuelve todos los choferes?
-	
-/:id 
-	devuelve chofer por ANDROID_ID solo si está validado.
-
-/sendSMS/:id	
-	envío SMS con clave al teléfono que viene en ID
-	
-POST
-/
-	creo un nuevo chofer (body: tel, nombre) debe validar por SMS
-
-DELETE
-/:ID	
-	elimino chofer por ANDROID_ID
-	
-PUT
-
-/:ID	
-	en el body meto json con (tel, claveSMS) y si está ok el chofer queda validado
-
-	*/

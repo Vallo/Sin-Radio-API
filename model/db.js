@@ -7,7 +7,7 @@ exports.init = function(){
 	Promise.using(getSqlConnection(), function(connection) {
     return connection.query("CREATE database if not exists test ").
 		then(connection.query("CREATE TABLE IF NOT EXISTS chofer (android_id varchar(50), tel int primary key, nombre varchar(50), claveSMS int)")).
-			//then(connection.query("insert into chofer (android_id, tel, nombre,claveSMS) values (null,54113182236,'yo',2345)")).
+		then(connection.query("CREATE TABLE IF NOT EXISTS posicion (android_id varchar(50) primary key, lat double , lon double, estado int , fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)")).
 			catch(function(error) {
       console.log(error);
     });
