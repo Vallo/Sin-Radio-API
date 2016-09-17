@@ -1,10 +1,5 @@
 var db = require('./db.js');
 
-
-exports.test = function(){
-	db.query('select 1 as test');
-}
-
 exports.findAll = function(){
 	return db.query('select * from chofer').then(function(result){
 		return result;
@@ -31,9 +26,6 @@ exports.add = function(nombre, tel){
 	return db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]).then(
 		function(result){
 			return result;
-		}).catch(function(error){
-			console.log('error insertando chofer (chofer ya existente?)');
-			return error;
 		});
 }
 
