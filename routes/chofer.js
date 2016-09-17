@@ -53,8 +53,9 @@ router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre po
 	var telefono = req.body.tel;
 	var nombre = req.body.nombre;
 	chofer.add(nombre,telefono).then(function(chof){
-		res.sendstatus(200); //res.send(JSON.stringify(chof));
-	}).catch(function(err){
+		res.status(200);
+		res.send('OK'); //res.send(JSON.stringify(chof));
+	}).catch(function(err){		
 		res.status(400);
 		res.send('Chofer ya existente');
 	});
