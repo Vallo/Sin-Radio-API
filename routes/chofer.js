@@ -32,7 +32,7 @@ router.get('/:id', function(req,res){
 router.get('/sendSMS/:id', function(req,res){ //envío clave al teléfono id por sms
 	var tel = req.params.id;
 	chofer.findbyTel(req.params.id).then(function(chof){
-		if(!chof.tel){ //hay que registrarlo antes desde la central
+		if(!chof){ //hay que registrarlo antes desde la central
 			res.status(410);
 			res.send('Chofer inexistente');
 		}
