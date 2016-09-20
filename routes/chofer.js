@@ -62,6 +62,22 @@ router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre po
 	});
 });
 
+router.post('/token/:id', function(req,res){
+	var token = req.body.token;
+	var id = req.params.id;
+	if(!token || !id) {
+		res.status(400);
+		res.send('Error');
+	}
+	chofer.upsertToken(id,token).then(function(res){
+		res.status(200);
+		res.send('OK');
+	}).catch(function(err){
+		res.status(500);
+		res.send('Error');
+	})
+})
+
 router.put('/:id', function(req,res){ //se valida la clave SMS
 	var android = req.params.id;
 	var tel = req.body.tel;

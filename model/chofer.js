@@ -23,11 +23,17 @@ exports.delete = function(id){
 
 exports.add = function(nombre, tel){	
 	var random = Math.floor((Math.random() * 10000) + 1);
-	return db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]).then(
-		function(result){
-			return result;
-		});
+	return db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]).then(function(result){
+		return result;
+	});
 }
+
+
+exports.upsertToken = function(id,token){
+	return db.query("insert into chofer (android_id, token) values (?,?) on duplicate key update tkoen = values(token);", [id, token]).then(function(result){
+		return result[0];
+	});
+};
 
 exports.setClave = function(tel, android, clave){
 	return db.query("select * from chofer where tel = ? and claveSMS = ?", [tel, clave]).then(function(result){
@@ -48,6 +54,6 @@ exports.setClave = function(tel, android, clave){
 
 
 function CustomException(name_, message_) {
-  this.Exception = name_;
-  this.message = message_;
+	this.Exception = name_;
+	this.message = message_;
 }

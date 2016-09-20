@@ -16,7 +16,7 @@ exports.findbyId = function(id){
 
 
 exports.upsert = function(chofer){
-	return db.query("insert into posicion (android_id, latlon estado) values (?,point(?,?),?) on duplicate key update latlon = values(latlon), estado = values(estado);", [chofer.id, chofer.lat, chofer.lon, chofer.estado]).then(function(result){
+	return db.query("insert into posicion (android_id, latlon, estado) values (?,point(?,?),?) on duplicate key update latlon = values(latlon), estado = values(estado);", [chofer.id, chofer.lat, chofer.lon, chofer.estado]).then(function(result){
 		return result[0];
 	});
 };

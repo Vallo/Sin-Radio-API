@@ -22,7 +22,7 @@ router.POST('/', function(req, res) { //TODO: validar origen del pedido?
 	var _dir = req.body.dir;
 	if (!_lat || !_lon || _dir) {
 		res.status(400);
-		res.send();
+		res.send('Error');
 		console.log('error');
 	}
 	var viaje = new Object({lat : _lat, lon : _lon, dir : _dir});
@@ -37,7 +37,7 @@ router.POST('/', function(req, res) { //TODO: validar origen del pedido?
 });
 
 
-router.POST('/id', function(req, res) {
+router.POST('/id', function(req, res) { //un chofer aceptó el viaje
 	var android_id = req.body.id;
 	viajes.findbyId(req.params.id).then(function(result){
 		if (result) {//si encuentro el viaje

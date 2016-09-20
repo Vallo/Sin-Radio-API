@@ -39,6 +39,9 @@ exports.insert = function(viaje){
 
 exports.notificarChoferes = function(viaje){
 	db.findCloserToPoint(lat,lon).then(function(choferes){
-
+		choferes.forEach(function(current){
+			//obtener key de notificación
+			//notifications.sendNotification()
+		});
 	});
 };
