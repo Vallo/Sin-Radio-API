@@ -45,7 +45,8 @@ router.get('/sendSMS/:id', function(req,res){ //envío clave al teléfono id por
 
 router.delete('/:id',function(req,res){ //eliminar chofer, validar que la solicitud venga de la central 
 	chofer.delete(req.params.id);
-	res.sendstatus(200);
+	res.status(200);
+	res.send('OK');
 });
 
 

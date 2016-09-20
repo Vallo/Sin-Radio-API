@@ -14,7 +14,7 @@ router.get('/', function(req,res){
 });
 
 
-router.get('/:id', function(req,res){
+router.get('/:id(\\d+)/', function(req,res){
 	posicion.findbyId(req.params.id).then(function(result){
 		res.status(200);
 		res.send(JSON.stringify(result));
@@ -42,46 +42,43 @@ router.post('/:id', function(req,res){ //recibo posicion
 	});
 });
 
-router.get('/mapa/asd', function(req, res){
-	try	{
-		var publicConfig = {
-			key: 'AIzaSyCkHdWm_AJQjYt-AjjRkXwPTesdFk8lmos',
-			stagger_time:       1000, // for elevationPath
-			encode_polylines:   false,
-			secure:             true // use https
-		};
-		var gmAPI = new GoogleMapsAPI(publicConfig);
-		var marker = [];
-		posicion.findAll().then(function(result){
-			result.forEach(function(current){
-				console.log(current);	
-				var marc = new Object({location: [current.lat, current.lon]})
-				console.log('--------');			
-				console.log(marc);
-				marker.push(marc);
-				console.log('++++-');
-				console.log(marker);
-			});
-			return marker;
-		}).then(function(marker){
-			console.log('******');
-			console.log(marker);
-			var params = {
-				location: '51.507868,-0.087689',
-				size: '1200x1600',
-				heading: 108.4,
-				pitch: 7,
-				fov: 40,
-				markers: marker
-			};
-			console.log(params);
-			console.log(gmAPI.staticMap(params));
-			res.redirect(gmAPI.staticMap(params));
-		});
-	}
-	catch(e){
-		console.log(e);
-	}
+router.get('/mapa', function(req, res){
+ 	getMapa().then(function(mapa_){
+ 		res.render('mapa', {mapa: mapa_})
+ 	});
 });
 
+router.get('/mapa/url', function(req, res){
+ 	getMapa().then(function(map){
+ 		res.send(map);
+ 	});
+});
 module.exports = router;
+
+
+function getMapa(){
+	var publicConfig = {
+		key: 'AIzaSyCkHdWm_AJQjYt-AjjRkXwPTesdFk8lmos',
+		stagger_time:       1000, // for elevationPath
+		encode_polylines:   false,
+		secure:             true // use https
+	};
+	var gmAPI = new GoogleMapsAPI(publicConfig);
+	var marker = [];
+	return posicion.findAll().then(function(result){
+		result.forEach(function(current){
+			var marc = new Object({location: [current.lat, current.lon]})
+			marker.push(marc);
+		});
+		return marker;
+	}).then(function(marker){
+		var params = {
+			size: '1200x1600',
+			heading: 108.4,
+			pitch: 7,
+			fov: 40,
+			markers: marker
+		};
+		return gmAPI.staticMap(params);
+	});
+}
