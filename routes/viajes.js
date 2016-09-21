@@ -23,20 +23,21 @@ router.POST('/', function(req, res) { //TODO: validar origen del pedido?
 	if (!_lat || !_lon || _dir) {
 		res.status(400);
 		res.send();
-		console.log('error')
+		console.log('error');
 	}
-	var viaje = new Object({lat:_lat, lon : _lon, dir : _dir});
-	var viajes.insert(viaje).then(function(result){
+	var viaje = new Object({lat : _lat, lon : _lon, dir : _dir});
+	viajes.insert(viaje).then(function(result){
 		res.status(200);
 		res.send('OK');
+		viajes.notificarChoferes(viaje);
 	}).catch(function(err){
-		res.status(500)
+		res.status(500);
 		res.send('Error insertando viaje');
 	});
 });
 
 
-router.POST('/id', function(req, res) { 
+router.POST('/id', function(req, res) {
 	var android_id = req.body.id;
 	viajes.findbyId(req.params.id).then(function(result){
 		if (result) {//si encuentro el viaje
