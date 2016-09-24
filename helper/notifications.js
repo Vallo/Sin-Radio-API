@@ -1,7 +1,7 @@
-var FCM = require('fcm-push');
+//var FCM = require('fcm-push');
 
 var serverKey = '';
-var fcm = new FCM(serverKey);
+var fcm //= new FCM(serverKey);
 
 exports.sendNotification = function(to, data_, title_, body_){
 	var message = {
