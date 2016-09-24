@@ -14,6 +14,12 @@ exports.findbyId = function(id){
 	});
 };
 
+exports.findCloserToPoint  = function(lat, lon){
+	return db.query('SELECT android_id, x(latlon), y(latlon), estado, fecha from posicion where glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))*100 < ?',
+		lat,lon, 3).then(function(result){
+			return result;
+		});
+};
 
 exports.upsert = function(chofer){
 	return db.query("insert into posicion (android_id, latlon, estado) values (?,point(?,?),?) on duplicate key update latlon = values(latlon), estado = values(estado);", [chofer.id, chofer.lat, chofer.lon, chofer.estado]).then(function(result){

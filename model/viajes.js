@@ -1,6 +1,6 @@
 var db = require('./db.js');
 var notifications = require('../helper/notifications.js');
-
+var posicion = require('./posicion.js');
 exports.findAll = function(){
 	return db.query('select id,chofer, x(latlon) as lat, y(latlon) as lon, dir from viajes').then(function(result){
 		return result;

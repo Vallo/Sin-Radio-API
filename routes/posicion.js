@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();	
+var router = express.Router();
 var posicion = require('../model/posicion.js');
 var GoogleMapsAPI = require('googlemaps');
 
@@ -10,7 +10,7 @@ router.get('/', function(req,res){
 	}).catch(function(err){
 		res.status(500);
 		res.send('Error interno');
-	})
+	});
 });
 
 
@@ -21,7 +21,7 @@ router.get('/:id(\\d+)/', function(req,res){
 	}).catch(function(err){
 		res.status(500);
 		res.send('Error interno');
-	})
+	});
 });
 
 router.post('/:id', function(req,res){ //recibo posicion 
@@ -33,7 +33,7 @@ router.post('/:id', function(req,res){ //recibo posicion
 	var chofer = new Object({lat,lon,estado,id});
 	console.log(JSON.stringify(chofer));
 	posicion.upsert(chofer).then(function(chof){
-		res.status(200); 
+		res.status(200);
 		res.send('OK');
 	}).catch(function(err){
 		res.status(400);
@@ -43,15 +43,15 @@ router.post('/:id', function(req,res){ //recibo posicion
 });
 
 router.get('/mapa', function(req, res){
- 	getMapa().then(function(mapa_){
- 		res.render('mapa', {mapa: mapa_})
- 	});
+	getMapa().then(function(mapa_){
+		res.render('mapa', {mapa: mapa_});
+	});
 });
 
 router.get('/mapa/url', function(req, res){
- 	getMapa().then(function(map){
- 		res.send(map);
- 	});
+	getMapa().then(function(map){
+		res.send(map);
+	});
 });
 module.exports = router;
 
@@ -67,7 +67,7 @@ function getMapa(){
 	var marker = [];
 	return posicion.findAll().then(function(result){
 		result.forEach(function(current){
-			var marc = new Object({location: [current.lat, current.lon]})
+			var marc = new Object({location: [current.lat, current.lon]});
 			marker.push(marc);
 		});
 		return marker;
