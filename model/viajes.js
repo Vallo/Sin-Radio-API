@@ -46,6 +46,14 @@ exports.insert = function(viaje){
 	});
 };
 
+exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
+	return db.query('update viajes set monto = ? where chofer = ? and id = ?', [monto, idChofer, idViaje]).then(function(result){
+		if (result.affectedRows === 0){
+			throw new Error();
+		}
+		return result;
+	});
+};
 
 exports.notificarChoferes = function(viaje){
 	db.findCloserToPoint(lat,lon).then(function(choferes){

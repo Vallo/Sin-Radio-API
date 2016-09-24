@@ -53,4 +53,18 @@ router.post('/:id(\\d+)/', function(req, res) { //un chofer aceptó el viaje
 	});
 });
 
+
+router.put('/:id(\\d+)/', function(req, res) { //ASIGNO MONTO 
+	var android_id = req.body.android_id;
+	var idViaje = req.params.id;
+	var monto = req.body.monto;
+	viajes.AsignarMontoAViaje(idViaje, android_id, monto).then(function(){
+			res.status(200);
+			res.send('OK');
+	}).catch(function(error){
+		console.log(error);
+		res.status(400);
+		res.send('Error asignando monto');
+	});
+});
 module.exports = router;
