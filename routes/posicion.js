@@ -25,8 +25,8 @@ router.get('/:id(\\d+)/', function(req,res){
 });
 
 router.post('/:id', function(req,res){ //recibo posicion 
-	var lat = req.body.lon;
-	var lon = req.body.lat;
+	var lat = req.body.lat;
+	var lon = req.body.lon;
 	var estado = req.body.estado;
 	var id = req.params.id;
 	console.log("asd" + lat + lon + id);
