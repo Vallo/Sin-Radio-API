@@ -86,19 +86,17 @@ router.put('/:id', function(req,res){ //se valida la clave SMS
 		if(!chof){ //hay que registrarlo antes desde la central
 			res.status(410);
 			res.send('Chofer inexistente');
+			return;
 		}
 		else{
 			chofer.setClave(tel,android,clave).then(function(result){ //todo ok
 				res.sendStatus(200);
 			}).catch(function(error){
-				if(error.Exception == 'MysqlException')
-				{
-					res.status(500)
-					res.send('Error interno: ' + error.message);
-				}
-				else if(error.Exception == 'ClaveInvalidaException')
+				console.log(error.Exception);
+				if(error.Exception == 'ClaveInvalidaException'){
 					res.status(400);
 					res.send(error.message);
+				}
 			});
 		}
 	});

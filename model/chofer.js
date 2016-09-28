@@ -36,17 +36,9 @@ exports.upsertToken = function(id,token){
 };
 
 exports.setClave = function(tel, android, clave){
-	return db.query("select * from chofer where tel = ? and claveSMS = ?", [tel, clave]).then(function(result){
-		if (result.length > 0){
-			return db.query("update chofer set android_id = ? where tel = ? and claveSMS = ?", [android, tel, clave]).then(function(result){
-				return result.affectedRows;
-			}).catch(function(error){
-				console.log(error);
-				throw new CustomException('MysqlException',error);
-			});
-		}
-		else
-		{
+	console.log(tel + android + clave);
+	return db.query("update chofer set android_id = ? where tel = ? and claveSMS = ?", [android, tel, clave]).then(function(result){
+		if (result.affectedRows === 0) {
 			throw new CustomException('ClaveInvalidaException','La clave ingresada es incorrecta');
 		}
 	});
