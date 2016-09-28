@@ -46,11 +46,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/reset', function(req,res){
-	db.query('drop database test').then(
-		db.query('create database test').then(
-			db.init()
-			)
-		);
+	db.query('drop database test').then(function(){
+		db.query('create database test').then(function(){
+			db.query("create user 'Diego'@'%' identified by 'cfk2019'");
+			db.query("create user 'test'@'%' identified by '1234'");
+			db.query("grant all privileges to 'Diego'@'%'");
+			db.query("grant all privileges to 'test'@'%'");
+			db.query("flush privileges");
+			db.init();
+		});
+	});
 });
 
 module.exports = router;
