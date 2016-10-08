@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();	
 var chofer = require('../model/chofer.js');
 var sms = require('../helper/sms.js')
+var viajes = require('../model/viajes.js');
 
 router.get('/', function(req,res){
 	chofer.findAll().then(function(result){
@@ -20,6 +21,20 @@ router.get('/:id', function(req,res){
 			if(!chof){ //chofer inexistente
 				res.status(410);
 				res.send('Chofer inexistente');
+			}
+			else { 
+				res.status(200);
+				res.send(chof);
+			}
+		});
+});
+
+router.get('/:id/viajes', function(req,res){
+	var android = req.params.id;
+	viajes.findbyChofer(android).then(function(chof){
+			if(!chof){ //chofer inexistente
+				res.status(410);
+				res.send('Sin viajes');
 			}
 			else { 
 				res.status(200);

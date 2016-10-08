@@ -15,6 +15,12 @@ exports.findbyId = function(id){
 	});
 };
 
+exports.findbyChofer = function(id){
+	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir from viajes where chofer = ?', id).then(function(result){
+		return result[0];
+	});
+};
+
 exports.findSinAsignar = function(id){
 	return db.query('select * from viajes where id = ? and CHOFER is null', id).then(function(result){
 		return result[0];
