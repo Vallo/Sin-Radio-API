@@ -62,10 +62,9 @@ exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
 };
 
 exports.notificarChoferes = function(viaje){
-	db.findCloserToPoint(lat,lon).then(function(choferes){
-		choferes.forEach(function(current){
-			//obtener key de notificación
-			//notifications.sendNotification()
+	posicion.findCloserToPoint(lat,lon).then(function(choferes){
+		choferes.forEach(function(chofer){
+			notifications.sendNotification(chofer.token, null, 'Hola','Test');
 		});
 	});
 };

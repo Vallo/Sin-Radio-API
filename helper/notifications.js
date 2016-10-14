@@ -1,7 +1,9 @@
-//var FCM = require('fcm-push');
+var FCM = require('fcm-push');
+var req = require('requestify');
+//var serverKey = '';
+var fcm = new FCM('AIzaSyA4dgGcZCKT8sJyUaE_bRVVljjLM9PeQnA');
 
-var serverKey = '';
-var fcm //= new FCM(serverKey);
+
 
 exports.sendNotification = function(to, data_, title_, body_){
 	var message = {
@@ -13,9 +15,9 @@ exports.sendNotification = function(to, data_, title_, body_){
 			body: body_
 		}
 	};
+	console.log(message);
 	fcm.send(message)
 		.then(function(response){
-			console.log("Successfully sent with response: ", response);
 		})
 		.catch(function(err){
 			console.log("Something has gone wrong!");

@@ -22,7 +22,7 @@ exports.delete = function(id){
 };
 
 exports.add = function(nombre, tel){
-	var random = Math.floor((Math.random() * 10000) + 1);
+	var random = 2882//Math.floor((Math.random() * 10000) + 1);
 	return db.query('insert into chofer (nombre, tel, claveSMS) values (?,?,?)', [nombre,tel, random]).then(function(result){
 		return result;
 	});
@@ -34,6 +34,12 @@ exports.upsertToken = function(id,token){
 		return result[0];
 	});
 };
+
+exports.getToken = function(id){
+	return db.query("select token from chofer where android_id = ?", id).then(function(result){
+		return result[0];
+	});
+}
 
 exports.setClave = function(tel, android, clave){
 	console.log(tel + android + clave);
