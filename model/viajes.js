@@ -23,7 +23,7 @@ exports.findbyChofer = function(id){
 
 exports.findbyCliente = function(id){
 	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto from viajes where cliente = ?', id).then(function(result){
-		return result[0];
+		return result;
 	});
 };
 
