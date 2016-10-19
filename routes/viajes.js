@@ -16,10 +16,11 @@ router.get('/pendientes', function(req, res) {
 	});
 });
 
-router.post('/', function(req, res) { //TODO: validar origen del pedido?
+router.post('/', function(req, res) { 
 	var _lat = req.body.lat;
 	var _lon = req.body.lon;
 	var _dir = req.body.dir;
+	var _cliente = req.body.mail;
 	if (!_lat || !_lon || !_dir) {
 		console.log(_lat + _lon + _dir);
 		res.status(400);
@@ -28,13 +29,14 @@ router.post('/', function(req, res) { //TODO: validar origen del pedido?
 		return;
 	}
 	else{
-		var viaje = new Object({lat : _lat, lon : _lon, dir : _dir});
-		viajes.insert(viaje).then(function(result){
+		var viaje = new Object({lat : _lat, lon : _lon, dir : _dir, cliente : _cliente});
+		viajes.insert(viaje).then(function(idViaje){
 			res.status(200);
 			res.send('OK');
-			viajes.notificarChoferes(viaje);
+			viajes.notificarChoferes(viaje, idViaje);
 		}).catch(function(err){
 			res.status(500);
+			console.log(err);
 			res.send('Error insertando viaje');
 		});
 	}

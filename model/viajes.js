@@ -16,7 +16,13 @@ exports.findbyId = function(id){
 };
 
 exports.findbyChofer = function(id){
-	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir from viajes where chofer = ?', id).then(function(result){
+	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto from viajes where chofer = ?', id).then(function(result){
+		return result[0];
+	});
+};
+
+exports.findbyCliente = function(id){
+	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto from viajes where cliente = ?', id).then(function(result){
 		return result[0];
 	});
 };
@@ -45,8 +51,8 @@ exports.AsignarViajeAChofer = function(idViaje, idChofer){
 
 
 exports.insert = function(viaje){
-	return db.query('insert into viajes (latlon, dir) values (point(?,?),?)',[viaje.lat, viaje.lon, viaje.dir]).then(function(result){
-		return result;
+	return db.query('insert into viajes (latlon, dir, cliente) values (point(?,?),?,?)',[viaje.lat, viaje.lon, viaje.dir, viaje.cliente]).then(function(result){
+		return result.insertId;
 	}).catch(function(error){
 		throw error;
 	});
@@ -61,10 +67,10 @@ exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
 	});
 };
 
-exports.notificarChoferes = function(viaje){
-	posicion.findCloserToPoint(lat,lon).then(function(choferes){
+exports.notificarChoferes = function(viaje, id){
+	posicion.findCloserToPoint(viaje.lat,viaje.lon).then(function(choferes){
 		choferes.forEach(function(chofer){
-			notifications.sendNotification(chofer.token, null, 'Hola','Test');
+			notifications.sendNotification(chofer.token, {"idViaje":id}, 'Hola','Test');
 		});
 	});
 };
