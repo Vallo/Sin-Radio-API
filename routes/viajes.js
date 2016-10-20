@@ -21,6 +21,7 @@ router.post('/', function(req, res) {
 	var _lon = req.body.lon;
 	var _dir = req.body.dir;
 	var _cliente = req.body.mail;
+	var _detalle = req.body.detalle;
 	if (!_lat || !_lon || !_dir) {
 		console.log(_lat + _lon + _dir);
 		res.status(400);
@@ -29,7 +30,7 @@ router.post('/', function(req, res) {
 		return;
 	}
 	else{
-		var viaje = new Object({lat : _lat, lon : _lon, dir : _dir, cliente : _cliente});
+		var viaje = new Object({lat : _lat, lon : _lon, dir : _dir, cliente : _cliente, detalle : _detalle});
 		viajes.insert(viaje).then(function(idViaje){
 			res.status(200);
 			res.send('OK');

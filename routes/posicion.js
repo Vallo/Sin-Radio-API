@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var posicion = require('../model/posicion.js');
 var GoogleMapsAPI = require('googlemaps');
-
+var viajes = require('../model/viajes.js');
 router.get('/', function(req,res){
 	posicion.findAll().then(function(result){
 		res.status(200);
@@ -29,12 +29,11 @@ router.post('/:id', function(req,res){ //recibo posicion
 	var lon = req.body.lon;
 	var estado = req.body.estado;
 	var id = req.params.id;
-	console.log("asd" + lat + lon + id);
 	var chofer = new Object({lat,lon,estado,id});
-	console.log(JSON.stringify(chofer));
 	posicion.upsert(chofer).then(function(chof){
 		res.status(200);
 		res.send('OK');
+		viajes.NotifPasajero(chofer);
 	}).catch(function(err){
 		res.status(400);
 		console.log(err);

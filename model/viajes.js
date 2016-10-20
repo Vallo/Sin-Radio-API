@@ -41,7 +41,7 @@ exports.findPending = function(id){
 };
 
 exports.AsignarViajeAChofer = function(idViaje, idChofer){
-	return db.query('update viajes set chofer = ? where chofer is null and id = ?', [idChofer, idViaje]).then(function(result){
+	return db.query('update viajes set chofer = ?, estado = 1 where chofer is null and id = ?', [idChofer, idViaje]).then(function(result){
 		if (result.affectedRows === 0){
 			throw new Error();
 		}
@@ -51,7 +51,7 @@ exports.AsignarViajeAChofer = function(idViaje, idChofer){
 
 
 exports.insert = function(viaje){
-	return db.query('insert into viajes (latlon, dir, cliente) values (point(?,?),?,?)',[viaje.lat, viaje.lon, viaje.dir, viaje.cliente]).then(function(result){
+	return db.query('insert into viajes (latlon, dir, cliente, ESTADO, detalle) values (point(?,?),?,?, 0, ?)',[viaje.lat, viaje.lon, viaje.dir, viaje.cliente, viaje.detalle]).then(function(result){
 		return result.insertId;
 	}).catch(function(error){
 		throw error;
@@ -59,11 +59,24 @@ exports.insert = function(viaje){
 };
 
 exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
-	return db.query('update viajes set monto = ? where chofer = ? and id = ?', [monto, idChofer, idViaje]).then(function(result){
+	return db.query('update viajes set estado = 3, monto = ? where chofer = ? and id = ?', [monto, idChofer, idViaje]).then(function(result){
 		if (result.affectedRows === 0){
 			throw new Error();
 		}
 		return result;
+	});
+};
+
+exports.NotifPasajero = function(choferPos){
+	console.log(choferPos);
+	return db.query('select id, cliente from viajes where estado = 1 and cliente is not null and glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))*100 < ?', [choferPos.lat,choferPos.lon, 0.05]).
+	then(function(result){ 
+		if(result.length > 0 ){//estoy cerca del cliente, envío notif y pongo estado = 2
+			db.query('update viajes set estado = 2 where id = ?', result[0].id);
+			db.query('select token from TOKENS where cliente = ?', result[0].cliente).then(function(result){
+				notifications.sendNotificationPasajero(result.token);
+			});
+		}
 	});
 };
 
