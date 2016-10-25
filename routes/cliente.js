@@ -27,10 +27,11 @@ router.post('/token/:id', function(req,res){
 		res.send('Error');
 		return;
 	}
-	cliente.upsertToken(mail,token).then(function(res){
+	cliente.upsertToken(mail,token).then(function(result){
 		res.status(200);
 		res.send('OK');
 	}).catch(function(err){
+		console.log(err);
 		res.status(500);
 		res.send('Error');
 	})
