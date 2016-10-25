@@ -8,6 +8,7 @@ var db = require('./model/db.js');
 var routes = require('./routes/index');
 var chofer = require('./routes/chofer');
 var posicion = require('./routes/posicion');
+var posicion = require('./routes/cliente');
 var viaje = require('./routes/viajes');
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/', routes);
 app.use('/chofer', chofer);
 app.use('/posicion', posicion);
 app.use('/viaje', viaje);
+app.use('/cliente', cliente);
 db.init();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
