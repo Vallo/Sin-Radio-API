@@ -30,7 +30,7 @@ exports.add = function(nombre, tel){
 
 
 exports.upsertToken = function(id,token){
-	return db.query("insert into chofer (android_id, token) values (?,?) on duplicate key update token = values(token);", [id, token]).then(function(result){
+	return db.query("insert into posicion (android_id, token) values (?,?) on duplicate key update token = values(token);", [id, token]).then(function(result){
 		return result[0];
 	});
 };

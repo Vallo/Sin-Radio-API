@@ -84,11 +84,12 @@ router.post('/token/:id', function(req,res){
 		res.status(400);
 		res.send('Error');
 	}
-	chofer.upsertToken(id,token).then(function(res){
+	chofer.upsertToken(id,token).then(function(result){
 		res.status(200);
 		res.send('OK');
 	}).catch(function(err){
 		res.status(500);
+		console.log(err);
 		res.send('Error');
 	})
 })

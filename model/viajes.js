@@ -83,7 +83,7 @@ exports.NotifPasajero = function(choferPos){
 exports.notificarChoferes = function(viaje, id){
 	posicion.findCloserToPoint(viaje.lat,viaje.lon).then(function(choferes){
 		choferes.forEach(function(chofer){
-			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon}, viaje.dir,'');
+			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon}, 'Nuevo viaje' ,viaje.dir);
 		});
 	});
 };
