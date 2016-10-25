@@ -8,7 +8,7 @@ var db = require('./model/db.js');
 var routes = require('./routes/index');
 var chofer = require('./routes/chofer');
 var posicion = require('./routes/posicion');
-var posicion = require('./routes/cliente');
+var cliente = require('./routes/cliente');
 var viaje = require('./routes/viajes');
 var app = express();
 
