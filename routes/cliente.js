@@ -16,3 +16,24 @@ router.get('/viajes', function(req,res){
 			}
 		});
 });
+
+
+router.post('/token/:id', function(req,res){
+	var token = req.body.token;
+	var id = req.params.id;
+	var mail = req.body.mail;
+	if(!token || !mail) {
+		res.status(400);
+		res.send('Error');
+	}
+	cliente.upsertToken(mail,token).then(function(res){
+		res.status(200);
+		res.send('OK');
+	}).catch(function(err){
+		res.status(500);
+		res.send('Error');
+	})
+});
+
+
+module.exports = router;
