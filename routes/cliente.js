@@ -21,10 +21,11 @@ router.get('/viajes', function(req,res){
 router.post('/token/:id', function(req,res){
 	var token = req.body.token;
 	var id = req.params.id;
-	var mail = req.body.mail;
+	var mail = req.body.email;
 	if(!token || !mail) {
 		res.status(400);
 		res.send('Error');
+		return;
 	}
 	cliente.upsertToken(mail,token).then(function(res){
 		res.status(200);
