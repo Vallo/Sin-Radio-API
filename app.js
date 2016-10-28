@@ -10,6 +10,7 @@ var chofer = require('./routes/chofer');
 var posicion = require('./routes/posicion');
 var cliente = require('./routes/cliente');
 var viaje = require('./routes/viajes');
+var cors = require('cors');
 var app = express();
 
 console.log('SERVER ON');
@@ -24,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors());
 app.use('/', routes);
 app.use('/chofer', chofer);
 app.use('/posicion', posicion);
