@@ -9,11 +9,11 @@ exports.sendNotification = function(to, data_, title_, body_){
 	var message = {
 		to: to, // required fill with device token or topics
 		collapse_key: 'test',
-		data: data_,
+		data: data_/*,
 		notification: {
 			title: title_,
 			body: body_
-		}
+		}*/
 	};
 	console.log(message);
 	fcm.send(message)

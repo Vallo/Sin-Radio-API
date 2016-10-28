@@ -2,7 +2,7 @@ var db = require('./db.js');
 
 
 exports.findAll = function(){
-	return db.query('select android_id, x(latlon) as lat, y(latlon) as lon, estado from posicion').then(function(result){
+	return db.query('select android_id, x(latlon) as lat, y(latlon) as lon, estado, token from posicion').then(function(result){
 		return result;
 	});
 };
