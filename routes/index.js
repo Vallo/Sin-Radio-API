@@ -17,7 +17,7 @@ router.get('/test', function(req,res){
 router.get('/test2', function(req,res){
 	chofer.findbyTel(1131154958).then(function(result){
 		console.log(result);
-		notifications.sendNotification(result.token, {"idViaje":id, "lat":"-34.636", "lon":"-58.49509"},'','');
+		notifications.sendNotification(result.token, {"idViaje":id,"dir":"Marcos Calvo 1231" "lat":"-34.636", "lon":"-58.49509", "title":"Nuevo Viaje!", "body":"Marcos Calvo 1231"},'','');
 	});
 	
 	res.sendStatus(200);
