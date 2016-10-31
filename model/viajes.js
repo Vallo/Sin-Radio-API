@@ -74,7 +74,7 @@ exports.NotifPasajero = function(choferPos){
 		if(result.length > 0 ){//estoy cerca del cliente, envío notif y pongo estado = 2
 			db.query('update viajes set estado = 2 where id = ?', result[0].id);
 			db.query('select token from TOKENS where cliente = ?', result[0].cliente).then(function(result){
-				notifications.sendNotificationPasajero(result.token);
+				notifications.sendNotificationPasajero(result.token, {"title":"Su chofer ha arribado!","body":"Su chofer lo está esperando"});
 			});
 		}
 	});
@@ -83,7 +83,7 @@ exports.NotifPasajero = function(choferPos){
 exports.notificarChoferes = function(viaje, id){
 	posicion.findCloserToPoint(viaje.lat,viaje.lon).then(function(choferes){
 		choferes.forEach(function(chofer){
-			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon}, 'Nuevo viaje' ,viaje.dir);
+			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon,"title":"Nuevo viaje!","body":viaje.dir});
 		});
 	});
 };
