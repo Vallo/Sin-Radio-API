@@ -2,7 +2,7 @@ var db = require('./db.js');
 
 
 exports.findAll = function(){
-	return db.query('select android_id, x(latlon) as lat, y(latlon) as lon, estado, token from posicion').then(function(result){
+	return db.query('select c.android_id, x(latlon) as lat, y(latlon) as lon, fecha, estado, token, nombre from posicion p inner join chofer c on c.android_id = p.android_id').then(function(result){
 		return result;
 	});
 };
