@@ -1,5 +1,5 @@
 var db = require('./db.js');
-
+var radioChofer = require('../config.js').radioNotif.chofer;
 
 exports.findAll = function(){
 	return db.query('select c.android_id, x(latlon) as lat, y(latlon) as lon, fecha, estado, token, nombre from posicion p inner join chofer c on c.android_id = p.android_id').then(function(result){
@@ -15,7 +15,7 @@ exports.findbyId = function(id){
 };
 
 exports.findCloserToPoint  = function(lat, lon){
-	return db.query("SELECT c.android_id, x(latlon), y(latlon), estado, token, fecha from posicion p inner join chofer c on c.android_id = p.android_id where glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))*100 < ?",[lat,lon, 3]).then(function(result){
+	return db.query("SELECT c.android_id, x(latlon), y(latlon), estado, token, fecha from posicion p inner join chofer c on c.android_id = p.android_id where glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))/10 < ?",[lat,lon, radioChofer]).then(function(result){
 			return result;
 		});
 }; //TIMESTAMPDIFF(SECOND,now(), fecha) < 30  agregar para no enviar a choferes sin señal

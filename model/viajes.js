@@ -1,28 +1,30 @@
 var db = require('./db.js');
 var notifications = require('../helper/notifications.js');
 var posicion = require('./posicion.js');
+var radioCliente = require('../config.js').radioNotif.cliente;
+
 
 exports.findAll = function(){
-	return db.query('select id,chofer, x(latlon) as lat, y(latlon) as lon, dir from viajes').then(function(result){
+	return db.query('select *, x(latlon) as lat, y(latlon) as lon from viajes').then(function(result){
 		return result;
 	});
 };
 
 
 exports.findbyId = function(id){
-	return db.query('select id,chofer, x(latlon) as lat, y(latlon) as lon, dir from viajes where id = ?', id).then(function(result){
+	return db.query('select id,chofer, x(latlon) as lat, y(latlon) as lon, dir, detalle from viajes where id = ? order by fecha desc', id).then(function(result){
 		return result[0];
 	});
 };
 
 exports.findbyChofer = function(id){
-	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto from viajes where chofer = ?', id).then(function(result){
+	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto, fecha, detalle from viajes where chofer = ? order by fecha desc', id).then(function(result){
 		return result;
 	});
 };
 
 exports.findbyCliente = function(id){
-	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto from viajes where cliente = ?', id).then(function(result){
+	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto, fecha, detalle, nombre as chofer from viajes v inner join chofer c on c.android_id = v.chofer where cliente = ? order by fecha desc', id).then(function(result){
 		return result;
 	});
 };
@@ -69,7 +71,7 @@ exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
 
 exports.NotifPasajero = function(choferPos){
 	console.log(choferPos);
-	return db.query('select id, cliente from viajes where estado = 1 and cliente is not null and glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))*100 < ?', [choferPos.lat,choferPos.lon, 0.05]).
+	return db.query('select id, cliente from viajes where estado = 1 and cliente is not null and glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))/10 < ?', [choferPos.lat,choferPos.lon, radioCliente]).
 	then(function(result){ 
 		if(result.length > 0 ){//estoy cerca del cliente, envío notif y pongo estado = 2
 			db.query('update viajes set estado = 2 where id = ?', result[0].id);
@@ -83,7 +85,7 @@ exports.NotifPasajero = function(choferPos){
 exports.notificarChoferes = function(viaje, id){
 	posicion.findCloserToPoint(viaje.lat,viaje.lon).then(function(choferes){
 		choferes.forEach(function(chofer){
-			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon,"title":"Nuevo viaje!","body":viaje.dir});
+			notifications.sendNotification(chofer.token, {"idViaje":id, "lat":viaje.lat, "lon":viaje.lon, "detalle":viaje.detalle, "title":"Nuevo viaje!","body":viaje.dir});
 		});
 	});
 };
