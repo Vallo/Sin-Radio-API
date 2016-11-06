@@ -70,9 +70,8 @@ exports.AsignarMontoAViaje = function(idViaje, idChofer, monto){
 };
 
 exports.NotifPasajero = function(choferPos){
-	console.log(choferPos);
 	return  //db.query('select id, cliente from viajes where estado = 1 and cliente is not null and glength(LineStringFromWKB(LineString(GeomFromText(astext(PointFromWKB(latlon))),GeomFromText(astext(PointFromWKB(POINT(?, ?)))))))/10 < ? and chofer = ?', ).
-	db.query("select id, cliente from viajes where cliente is not null and estado = 1 and chofer = ? and 111.1111 * DEGREES(ACOS(COS(RADIANS(X(latlon))) * COS(RADIANS(?LAT))* COS(RADIANS(Y(latlon) - (?LON)))+ SIN(RADIANS(X(latlon))) * SIN(RADIANS(?LAT)))) *1000< ?",[choferPos.id,choferPos.lat,choferPos.lon,choferPos.lat, radioCliente]).
+	db.query("select id, cliente from viajes where cliente is not null and estado = 1 and chofer = ? and 111.1111 * DEGREES(ACOS(COS(RADIANS(X(latlon))) * COS(RADIANS(?))* COS(RADIANS(Y(latlon) - (?)))+ SIN(RADIANS(X(latlon))) * SIN(RADIANS(?)))) *1000< ?",[choferPos.id,choferPos.lat,choferPos.lon,choferPos.lat, radioCliente]).
 	then(function(result){ 
 		if(result.length > 0 ){//estoy cerca del cliente, envío notif y pongo estado = 2
 			console.log(result);
