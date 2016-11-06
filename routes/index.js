@@ -21,8 +21,12 @@ router.get('/test2', function(req,res){
 			notifications.sendNotification(token.token, {"idViaje":1,"dir":"Marcos Calvo 1231", "lat":"-34.636", "lon":"-58.49509", "title":"Nuevo Viaje!", "body":"Marcos Calvo 1231"},null,null);
 		})
 	});
-	
+
 	res.sendStatus(200);
 });
 
+router.get('/test3', function(req,res){
+	notifications.sendNotificationPasajero('erAaBVulPLQ:APA91bEQJTrRv64XH5o2XnW0qNs2CUxCkrFQCd--b7DRjCeCjT4KVVK8JB-joE4yxAOilZ6gZxY8US0lVEJMlmNnpwHVJSShGfSaHq1LIxv2WzJ_jqXmf4xlqUlD7qXSGgnpr6TpCYX2', {"title":"Su chofer ha arribado!","body":"Patente: ABC-123"});
+	res.sendStatus(200);
+});
 module.exports = router; 
