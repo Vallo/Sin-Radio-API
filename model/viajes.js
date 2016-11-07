@@ -76,7 +76,7 @@ exports.NotifPasajero = function(choferPos){
 			console.log(result);
 			db.query('update viajes set estado = 2 where id = ?', result[0].id);
 			db.query('select token from TOKENS where CLIENTE = ?', result[0].cliente).then(function(res){
-				notifications.sendNotificationPasajero(res.token, {"title":"Su chofer ha arribado!","body":"Patente: ABC-123"});
+				notifications.sendNotificationPasajero(res[0].token, {"title":"Su chofer ha arribado!","body":"Patente: ABC-123"});
 			});
 		}
 	});
