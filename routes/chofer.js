@@ -77,6 +77,19 @@ router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre po
 	});
 });
 
+router.post('/emergencia', function(req,res){ //agrego nuevo chofer recibo tel y nombre por param
+	var android_id = req.body.id;
+	var lat = req.body.lat;
+	var lon = req.body.lon;
+	chofer.addEmergencia(android_id,lat,lon).then(function(chof){
+		res.status(200);
+		res.send('OK'); //res.send(JSON.stringify(chof));
+	}).catch(function(err){		
+		res.status(400);
+		res.send('Error');
+	});
+});
+
 router.post('/token/:id', function(req,res){
 	var token = req.body.token;
 	var id = req.params.id;

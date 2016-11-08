@@ -11,6 +11,7 @@ var posicion = require('./routes/posicion');
 var cliente = require('./routes/cliente');
 var viaje = require('./routes/viajes');
 var cors = require('cors');
+var sync = require('./routes/sync')
 var app = express();
 
 console.log('SERVER ON');
@@ -31,6 +32,7 @@ app.use('/chofer', chofer);
 app.use('/posicion', posicion);
 app.use('/viaje', viaje);
 app.use('/cliente', cliente);
+app.use('/sync',sync);
 db.init();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

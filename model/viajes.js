@@ -17,6 +17,12 @@ exports.findbyId = function(id){
 	});
 };
 
+exports.findbyIdLocal = function(id){
+	return db.query('select idLocal,chofer, monto, estado, x(latlon) as lat, y(latlon) as lon, dir, detalle from viajes where idLocal = ? order by fecha desc', id).then(function(result){
+		return result[0];
+	});
+};
+
 exports.findbyChofer = function(id){
 	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto, fecha, detalle from viajes where chofer = ? order by fecha desc', id).then(function(result){
 		return result;
@@ -53,7 +59,7 @@ exports.AsignarViajeAChofer = function(idViaje, idChofer){
 
 
 exports.insert = function(viaje){
-	return db.query('insert into viajes (latlon, dir, cliente, ESTADO, detalle) values (point(?,?),?,?, 0, ?)',[viaje.lat, viaje.lon, viaje.dir, viaje.cliente, viaje.detalle]).then(function(result){
+	return db.query('insert into viajes (latlon, dir, cliente, ESTADO, detalle, idLocal) values (point(?,?),?,?, 0, ?, ?)',[viaje.lat, viaje.lon, viaje.dir, viaje.cliente, viaje.detalle, viaje.idLocal]).then(function(result){
 		return result.insertId;
 	}).catch(function(error){
 		throw error;
