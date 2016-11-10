@@ -41,9 +41,7 @@ exports.getToken = function(id){
 	});
 }
 
-exports.addEmergencia = function(id,lat,lon){
-	return db.query("insert into emergencias(android_id,latlon) values (?,point(?,?))", [id,lat,lon]);
-}
+
 
 exports.setClave = function(tel, android, clave){
 	console.log(tel + android + clave);

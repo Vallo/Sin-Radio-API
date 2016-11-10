@@ -3,6 +3,7 @@ var router = express.Router();
 var chofer = require('../model/chofer.js');
 var sms = require('../helper/sms.js')
 var viajes = require('../model/viajes.js');
+var emergencias = require('../model/emergencias.js');
 
 router.get('/', function(req,res){
 	chofer.findAll().then(function(result){
@@ -77,13 +78,13 @@ router.post('/', function(req,res){ //agrego nuevo chofer recibo tel y nombre po
 	});
 });
 
-router.post('/emergencia', function(req,res){ //agrego nuevo chofer recibo tel y nombre por param
-	var android_id = req.body.id;
+router.post('/:id/emergencia/', function(req,res){ //agrego nuevo chofer recibo tel y nombre por param
+	var android_id = req.params.id;
 	var lat = req.body.lat;
 	var lon = req.body.lon;
-	chofer.addEmergencia(android_id,lat,lon).then(function(chof){
+	emergencias.addEmergencia(android_id,lat,lon).then(function(chof){
 		res.status(200);
-		res.send('OK'); //res.send(JSON.stringify(chof));
+		res.send('OK'); 
 	}).catch(function(err){		
 		res.status(400);
 		res.send('Error');

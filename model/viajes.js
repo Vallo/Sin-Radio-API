@@ -12,16 +12,23 @@ exports.findAll = function(){
 
 
 exports.findbyId = function(id){
-	return db.query('select id,chofer, x(latlon) as lat, y(latlon) as lon, dir, detalle from viajes where id = ? order by fecha desc', id).then(function(result){
+	return db.query('select id ,chofer, monto, estado, x(latlon) as lat, y(latlon) as lon, dir, detalle, fecha from viajes where id = ? order by fecha desc', id).then(function(result){
 		return result[0];
 	});
 };
 
 exports.findbyIdLocal = function(id){
-	return db.query('select idLocal,chofer, monto, estado, x(latlon) as lat, y(latlon) as lon, dir, detalle from viajes where idLocal = ? order by fecha desc', id).then(function(result){
+	return db.query('select idLocal,chofer, monto, estado, x(latlon) as lat, y(latlon) as lon, dir, detalle, fecha from viajes where idLocal = ? order by fecha desc', id).then(function(result){
 		return result[0];
 	});
 };
+
+exports.getOnlineNewerThan = function(id){
+	return db.query('select id ,chofer, monto, estado, x(latlon) as lat, y(latlon) as lon, dir, detalle, cliente, fecha from viajes where id > ? and cliente is not null order by fecha desc', id).then(function(result){
+		return result;
+	});
+};
+
 
 exports.findbyChofer = function(id){
 	return db.query('select id, x(latlon) as lat, y(latlon) as lon, dir, monto, fecha, detalle from viajes where chofer = ? order by fecha desc', id).then(function(result){
