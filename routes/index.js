@@ -29,4 +29,9 @@ router.get('/test3', function(req,res){
 	notifications.sendNotificationPasajero('erAaBVulPLQ:APA91bEQJTrRv64XH5o2XnW0qNs2CUxCkrFQCd--b7DRjCeCjT4KVVK8JB-joE4yxAOilZ6gZxY8US0lVEJMlmNnpwHVJSShGfSaHq1LIxv2WzJ_jqXmf4xlqUlD7qXSGgnpr6TpCYX2', {"title":"Su chofer ha arribado!","body":"Patente: ABC-123"});
 	res.sendStatus(200);
 });
+
+router.get('/test4', function(req,res){
+	requestify.post('http://45.55.85.27/alertaVial',{"desc":"Corte total en Cabildo y Juramento"});
+	res.sendStatus(200);
+});
 module.exports = router; 
