@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();	
+var chofer = require('../model/chofer.js');
 var notifications = require('../helper/notifications.js');
 
 router.post('/', function(req,res){
