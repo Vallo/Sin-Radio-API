@@ -9,8 +9,7 @@ router.post('/', function(req,res){
 		for (var i = 0; i < chof.length; i++) {
 			chofer.getToken(chof[i].android_id).then(function(tok){
 				notifications.sendNotification(tok, {title: 'Alerta vial!' , body: desc})
-			})
-			
+			})			
 		}
 	});
 });
