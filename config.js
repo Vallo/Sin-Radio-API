@@ -1,7 +1,4 @@
 var config = {};
-
-config.cloud = 'http://localhost';
-
 config.radioNotif = {};
 config.radioNotif.cliente = 150;
 config.radioNotif.chofer = 3000;
