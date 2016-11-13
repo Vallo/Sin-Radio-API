@@ -10,6 +10,7 @@ var chofer = require('./routes/chofer');
 var posicion = require('./routes/posicion');
 var cliente = require('./routes/cliente');
 var viaje = require('./routes/viajes');
+var alertaVial = require('./routes/AlertaVial.js');
 var cors = require('cors');
 var sync = require('./routes/sync')
 var app = express();
@@ -33,6 +34,7 @@ app.use('/posicion', posicion);
 app.use('/viaje', viaje);
 app.use('/cliente', cliente);
 app.use('/sync',sync);
+app.use('/alertaVial',alertaVial);
 db.init();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
