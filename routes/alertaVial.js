@@ -7,7 +7,10 @@ router.post('/', function(req,res){
 	var desc = req.get('desc');
 	chofer.findAll().then(function(chof){
 		for (var i = 0; i < chof.length; i++) {
-			notifications.sendNotification(chof[i].token, {title: 'Alerta vial!' , body: desc})
+			chofer.getToken(chof[i].android_id).then(function(tok){
+				notifications.sendNotification(tok, {title: 'Alerta vial!' , body: desc})
+			})
+			
 		}
 	});
 });
