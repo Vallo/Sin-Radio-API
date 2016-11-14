@@ -6,6 +6,7 @@ var fmcPasajero = new FCM('AIzaSyAr0-ORjWiy3yNZhmWSBg3fgG9T9q8iGQI')
 
 
 exports.sendNotification = function(to, data_){
+	if (!to) return;
 	var message = {
 		to: to, // required fill with device token or topics
 		collapse_key: 'test',
@@ -22,6 +23,7 @@ exports.sendNotification = function(to, data_){
 };
 
 exports.sendNotificationPasajero = function(to, data_){
+	if (!to) return;
 	var message = {
 		to: to, // required fill with device token or topics
 		collapse_key: 'test',

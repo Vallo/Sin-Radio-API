@@ -37,7 +37,7 @@ exports.upsertToken = function(id,token){
 
 exports.getToken = function(id){
 	return db.query("select token from posicion where android_id = ?", id).then(function(result){
-		return result[0];
+		return result[0].token;
 	});
 }
 
