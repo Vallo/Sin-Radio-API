@@ -5,7 +5,7 @@ var getSqlConnection = require('./dbConnection');
 
 exports.init = function (){
 	Promise.using(getSqlConnection(), function(connection){
-		return connection.query("CREATE database if not exists test ").
+		return connection.query("CREATE database if not exists cloud").
 		then(connection.query("CREATE TABLE IF NOT EXISTS chofer (android_id varchar(50), tel int primary key, nombre varchar(50), claveSMS int)")).
 		then(connection.query("CREATE TABLE IF NOT EXISTS posicion (android_id varchar(50) primary key, token varchar(255), latlon point, estado int , fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)")).
 		then(connection.query("CREATE TABLE IF NOT EXISTS viajes (ID INT PRIMARY KEY AUTO_INCREMENT, IdLocal int,  DETALLE varchar(50), ESTADO INT, CHOFER VARCHAR(50), LATLON POINT, DIR VARCHAR(200), monto decimal(6,2), fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CLIENTE VARCHAR(75))")).
