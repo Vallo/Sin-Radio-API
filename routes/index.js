@@ -3,9 +3,10 @@ var router = express.Router();
 var notifications = require('../helper/notifications.js');
 var requestify = require('requestify');
 var chofer = require('../model/chofer.js');
+var db = require('../model/db.js');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Sin - Radio' });
+	res.render('index', { title: 'Sin - Radio' });
 });
 
 router.get('/test', function(req,res){
@@ -34,4 +35,10 @@ router.get('/test4', function(req,res){
 	requestify.post('http://45.55.85.27/alertaVial',{"desc":"Corte total en Cabildo y Juramento"});
 	res.sendStatus(200);
 });
-module.exports = router; 
+
+router.get('/Init', function(req,res){
+	db.reset().then(function(){
+		res.send('NUBE INICIALIZADA');
+	});
+});
+	module.exports = router; 
