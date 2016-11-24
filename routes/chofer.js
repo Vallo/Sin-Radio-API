@@ -97,6 +97,7 @@ router.post('/token/:id', function(req,res){
 	if(!token || !id) {
 		res.status(400);
 		res.send('Error');
+		return;
 	}
 	chofer.upsertToken(id,token).then(function(result){
 		res.status(200);
